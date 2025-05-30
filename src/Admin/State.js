@@ -8,8 +8,8 @@ const State = () => {
   const [showModal, setShowModal] = useState(false);
   const [name, setName] = useState("");
   const [countryId, setCountryId] = useState("");
-  const [editingId, setEditingId] = useState(null); // null means "add" mode
-  const [viewState, setViewState] = useState(null); // Track the state to be viewed
+  const [editingId, setEditingId] = useState(null);
+  const [viewState, setViewState] = useState(null); 
 
   useEffect(() => {
     GetAllState();
