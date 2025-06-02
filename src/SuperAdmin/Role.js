@@ -6,7 +6,9 @@ const Role = () => {
 const [showModal, setShowModal] = useState(false);
 const [roles, setRoles]=useState([]);
 useEffect(() => {
-    axios.get('https://localhost:7160/api/Role/GetAll')
+  debugger;
+  var url = process.env.REACT_APP_BASE_URL + 'Role/GetAllRole';
+    axios.get(url)
       .then((res) => setRoles(res.data));
   }, []);
     return (

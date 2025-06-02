@@ -9,13 +9,13 @@ const AssignRole = () => {
   
 
   useEffect(() => {
-    axios.get('https://localhost:7160/api/Role/GetAll')
+    axios.get(process.env.REACT_APP_BASE_URL + 'Role/GetAllRole')
       .then((res) => {
         setRoles(res.data);
       });   
   }, []);
   useEffect(() => {
-    axios.get('https://localhost:7160/api/Users/GetAllUsers')
+    axios.get(process.env.REACT_APP_BASE_URL + 'User/GetAllUser')
       .then((res) => setUsers(res.data));
   }, []);
 
@@ -25,7 +25,7 @@ const AssignRole = () => {
       return;
     }
 
-    axios.post('https://localhost:7160/api/UserRole/AddUserRole', {
+    axios.post(process.env.REACT_APP_BASE_URL + 'UserRole/AddUserRole', {
       userId: selectedUserId,
       roleId: selectedRoleId
     })

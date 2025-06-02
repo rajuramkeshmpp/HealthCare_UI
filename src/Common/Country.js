@@ -30,8 +30,8 @@ const Country = () => {
     e.preventDefault();
 
     const url = isEditing
-      ? `https://localhost:7266/api/Country/UpdateCountry/${id}`
-      : "https://localhost:7266/api/Country/AddCountry";
+      ? process.env.REACT_APP_BASE_URL + `Country/UpdateCountry/${id}`
+      : process.env.REACT_APP_BASE_URL + "Country/AddCountry";
 
     const method = isEditing ? axios.put : axios.post;
 
@@ -52,7 +52,7 @@ const Country = () => {
   const deleteCountry = (countryId) => {
     if (window.confirm("Are you sure you want to delete this country?")) {
       axios
-        .delete(`https://localhost:7266/api/Country/DeleteCountry/${countryId}`)
+        .delete(process.env.REACT_APP_BASE_URL + `Country/DeleteCountry/${countryId}`)
         .then(() => {
           GetAllCountry();
         })

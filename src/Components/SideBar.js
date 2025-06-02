@@ -12,7 +12,7 @@ const [sidebar, setSidebar] = useState([]);
 
   useEffect(() => {
     debugger;
-    axios.get(`https://localhost:7266/api/Sidebars/GetSidebarByRoleId?roleId=${role.id}`)
+    axios.get(process.env.REACT_APP_BASE_URL + `Sidebars/GetSidebarByRoleId?roleId=${role.id}`)
       .then((res) => setSidebar(res.data));
   }, []);
 

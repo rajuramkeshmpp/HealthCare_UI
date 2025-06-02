@@ -7,8 +7,8 @@ function Register() {
   const [id, setId] = useState(0);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+  const [firstname, setFirstName] = useState("");
+  const [lastname, setLastName] = useState("");
   const [mobile, setMobile] = useState("");
   
   const [errors, setErrors] = useState({});
@@ -22,8 +22,8 @@ function Register() {
     if (!password) newErrors.password = "Password is required";
     else if (password.length < 6) newErrors.password = "Password must be at least 6 characters";
 
-    if (!firstName) newErrors.firstName = "First name is required";
-    if (!lastName) newErrors.lastName = "Last name is required";
+    if (!firstname) newErrors.firstname = "First name is required";
+    if (!lastname) newErrors.lastname = "Last name is required";
 
     if (!mobile) newErrors.mobile = "Mobile number is required";
     else if (!/^\d{10}$/.test(mobile)) newErrors.mobile = "Mobile number must be 10 digits";
@@ -37,8 +37,8 @@ function Register() {
     if (!validateForm()) 
       return;
     
-    axios.post('https://localhost:7160/api/Users/register', {
-       id,email, password, firstName, lastName, mobile
+    axios.post(process.env.REACT_APP_BASE_URL + 'User/Register', {
+       id,email, password, firstname, lastname, mobile
     })
     .then((res) => {
      if(res.data == "duplicate")
@@ -111,11 +111,11 @@ function Register() {
                           <input
                             type="text"
                             className="form-control"
-                            value={firstName}
+                            value={firstname}
                             onChange={(e) => setFirstName(e.target.value)}
                             placeholder="Enter your First Name"
                           />
-                          {errors.firstName && <small style={{ color: 'red' }}>{errors.firstName}</small>}
+                          {errors.firstname && <small style={{ color: 'red' }}>{errors.firstname}</small>}
                         </div>
                       </div>
 
@@ -126,11 +126,11 @@ function Register() {
                           <input
                             type="text"
                             className="form-control"
-                            value={lastName}
+                            value={lastname}
                             onChange={(e) => setLastName(e.target.value)}
                             placeholder="Enter your Last Name"
                           />
-                          {errors.lastName && <small style={{ color: 'red' }}>{errors.lastName}</small>}
+                          {errors.lastname && <small style={{ color: 'red' }}>{errors.lastname}</small>}
                         </div>
                       </div>
 

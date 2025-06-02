@@ -18,7 +18,7 @@ const State = () => {
 
   const GetAllState = () => {
     axios
-      .get("https://localhost:7160/api/State/GetAllStates")
+      .get(process.env.REACT_APP_BASE_URL + "State/GetAllStates")
       .then((res) => {
         setStates(res.data);
       })
@@ -29,7 +29,7 @@ const State = () => {
 
   const GetAllCountry = () => {
     axios
-      .get("https://localhost:7160/api/Country/GetAllCountry")
+      .get(process.env.REACT_APP_BASE_URL + "Country/GetAllCountry")
       .then((res) => {
         setCountries(res.data);
       })
@@ -49,7 +49,7 @@ const State = () => {
     if (editingId) {
       // Update existing state
       axios
-        .put(`https://localhost:7160/api/State/UpdateState/${editingId}`, stateData)
+        .put(process.env.REACT_APP_BASE_URL + `State/UpdateState/${editingId}`, stateData)
         .then((res) => {
           console.log("State updated:", res.data);
           resetForm();
@@ -61,7 +61,7 @@ const State = () => {
     } else {
       // Add new state
       axios
-        .post("https://localhost:7160/api/State/AddState", stateData)
+        .post(process.env.REACT_APP_BASE_URL + "State/AddState", stateData)
         .then((res) => {
           console.log("State added:", res.data);
           resetForm();
@@ -84,7 +84,7 @@ const State = () => {
   const handleDelete = (stateId) => {
     if (window.confirm("Are you sure you want to delete this state?")) {
       axios
-        .delete(`https://localhost:7160/api/State/DeleteState/${stateId}`)
+        .delete(process.env.REACT_APP_BASE_URL + `State/DeleteState/${stateId}`)
         .then(() => {
           console.log("State deleted successfully.");
           GetAllState(); // Refresh the table after deletion

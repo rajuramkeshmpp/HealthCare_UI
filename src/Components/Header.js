@@ -10,6 +10,7 @@ const Header = () => {
 
     const user = useAuthStore((state) => state.user);
     const role = useAuthStore((state) => state.role);
+    const company = useAuthStore((state) => state.company);
     const logout = useAuthStore((state) => state.logout);
     // const chapterdata = useAuthStore((state) => state.setChapter);
 
@@ -35,11 +36,11 @@ const Header = () => {
 
     // useEffect(() => {
     //     if (role.name === "Student") {
-    //         axios.get("https://localhost:7160/api/Standard/GetAllStandard")
+    //         axios.get(process.env.REACT_APP_BASE_URL + "Standard/GetAllStandard")
     //             .then(res => setStandards(res.data))
     //             .catch(err => console.error("Failed to fetch standards", err));
 
-    //         axios.get("https://localhost:7160/api/Subject/GetAllSubject")
+    //         axios.get(process.env.REACT_APP_BASE_URL + "Subject/GetAllSubject")
     //             .then(res => setSubjects(res.data))
     //             .catch(err => console.error("Failed to fetch subjects", err));
     //     }
@@ -48,7 +49,7 @@ const Header = () => {
     // const GetAllChapter = (stdId, subId) => {
     //     if (!stdId || !subId) return;
 
-    //     axios.get(`https://localhost:7160/api/Sidebar/ChapterSidebar?standardId=${stdId}&subjectId=${subId}`)
+    //     axios.get(process.env.REACT_APP_BASE_URL + `Sidebar/ChapterSidebar?standardId=${stdId}&subjectId=${subId}`)
     //         .then(response => chapterdata(response.data))
     //         .catch(err => console.error("Failed to fetch chapters", err));
     // };
@@ -73,8 +74,10 @@ const Header = () => {
     return (
         <>
             <header className="dashboard-header" style={{ display: 'flex', justifyContent: 'space-between', padding: '10px' }}>
+                {user && role && (
+                        <>
                 <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <div className="logo" style={{ marginRight: '20px' }}>Shiwansh Tutorial</div>
+                    <div className="logo" style={{ marginRight: '20px' }}>{company.name}</div>
 
                     {/* {role.name === "Student" && (
                         <div style={{ display: 'flex', gap: '10px' }}>
@@ -96,8 +99,7 @@ const Header = () => {
                 </div>
 
                 <div className="header-right" style={{ display: 'flex', alignItems: 'center', gap: '10px', position: 'relative' }} ref={dropdownRef}>
-                    {user && role && (
-                        <>
+                   
                             <img
                                 src={`/${user.name}.jpg`}
                                 alt="User Icon"
@@ -128,10 +130,11 @@ const Header = () => {
                                     </div>
                                 </div>
                             )}
-                        </>
-                    )}
+                      
                     <FaSignOutAlt className="icon" onClick={handleLogout} title="Logout" />
                 </div>
+                  </>
+                    )}
             </header>
 
             {/* Edit Profile Modal */}

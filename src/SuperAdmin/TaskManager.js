@@ -27,19 +27,19 @@ const TaskManager = () => {
   }, []);
 
   const fetchTasks = () => {
-    axios.get('https://localhost:7160/api/TaskManger/GetAllTaskList')
+    axios.get(process.env.REACT_APP_BASE_URL + 'TaskManger/GetAllTaskList')
       .then((res) => setTasks(res.data))
       .catch((err) => console.error("Error fetching task list:", err));
   };
 
   useEffect(() => {
-    axios.get('https://localhost:7160/api/Status/GetAllStatus')
+    axios.get(process.env.REACT_APP_BASE_URL + 'Status/GetAllStatus')
       .then((res) => setStatuses(res.data))
       .catch((err) => console.error("Error fetching status list:", err));
   }, []);
 
   useEffect(() => {
-    axios.get('https://localhost:7160/api/Users/GetAllUsers')
+    axios.get(process.env.REACT_APP_BASE_URL + 'User/GetAllUserForTaskManager')
       .then((res) => setUsers(res.data))
       .catch((err) => console.error("Error fetching user list:", err));
   }, []);
@@ -55,7 +55,7 @@ const TaskManager = () => {
   const handleTaskSubmit = (e) => {
     e.preventDefault();
     if (editingTaskId) {
-      axios.put(`https://localhost:7160/api/TaskManger/UpdateTask/${editingTaskId}`, {
+      axios.put(process.env.REACT_APP_BASE_URL + `TaskManger/UpdateTask/${editingTaskId}`, {
         id: editingTaskId,
         ...newTask
       })
@@ -69,7 +69,7 @@ const TaskManager = () => {
           alert('Failed to update task');
         });
     } else {
-      axios.post('https://localhost:7160/api/TaskManger/AddTask', newTask)
+      axios.post(process.env.REACT_APP_BASE_URL + 'TaskManger/AddTask', newTask)
         .then(() => {
           fetchTasks();
           alert('Task added successfully!');
@@ -105,7 +105,7 @@ const TaskManager = () => {
   };
 
   const getuserdata = (uid) => {
-    axios.get(`https://localhost:7160/api/TaskManger/GetAllTaskListByUserId/${uid}`)
+    axios.get(process.env.REACT_APP_BASE_URL + `TaskManger/GetAllTaskListByUserId/${uid}`)
       .then((res) => setTasks(res.data))
       .catch((err) => console.error("Error fetching user-specific tasks:", err));
   };
@@ -113,7 +113,7 @@ const TaskManager = () => {
   const handleDeleteTask = (taskId) => {
     const confirmDelete = window.confirm("Are you sure you want to delete this task?");
     if (confirmDelete) {
-      axios.delete(`https://localhost:7160/api/TaskManger/DeleteTask/${taskId}`)
+      axios.delete(process.env.REACT_APP_BASE_URL + `TaskManger/DeleteTask/${taskId}`)
         .then(() => {
           fetchTasks();
           alert('Task deleted successfully!');

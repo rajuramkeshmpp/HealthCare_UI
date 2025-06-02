@@ -18,6 +18,7 @@ function Login() {
   const userdata = useAuthStore((state) => state.setUser);
   const tokendata = useAuthStore((state) => state.setToken);
   const roledata = useAuthStore((state) => state.setRole);
+  const company = useAuthStore((state) => state.setCompany);
 
   const validateForm = () => {
     let isValid = true;
@@ -43,14 +44,15 @@ function Login() {
     if (!validateForm()) return;
 
     axios 
-      .post('https://localhost:7266/api/User/Login', { email, password })
+      .post(process.env.REACT_APP_BASE_URL + 'User/Login', { email, password })
       .then((res) => {
         debugger;
         if (res.data.success === "200") {
           tokendata(res.data.token);
           userdata(res.data.user);
           roledata(res.data.role);
-          navigate('/admin');
+          company(res.data.company);
+          navigate('/dashboard');
         } else if (res.data.success === "400") {
           swal("Invalid Credentials");
         } else if (res.data.success === "401") {

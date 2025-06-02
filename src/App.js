@@ -3,35 +3,38 @@ import Home from './Components/Home';
 import About from './Components/About';
 import Register from './Components/Register';
 import Login from './Components/Login';
-import AssignRole from './Admin/AssignRole';
+import AssignRole from './SuperAdmin/AssignRole';
 import HomeLayout from './layouts/HomeLayout';
 import DashboardLayout from './layouts/DashboardLayout';
-import TaskManager from './Admin/TaskManager';
-import Role from './Admin/Role';
-import Country from './Admin/Country';
-import State from './Admin/State';
-import District from './Admin/District';
+import TaskManager from './SuperAdmin/TaskManager';
+import Role from './SuperAdmin/Role';
+import Country from './Common/Country';
+import State from './Common/State';
+import District from './Common/District';
+import Doctors from './HealthCare/Admin/Doctors';
+import Nurses from './HealthCare/Admin/Nurses';
+import Sidebar from './SuperAdmin/Sidebar';
 
 function App() {
   return (
     <Router>
       <Routes>
-        {/* Main Layout */}
         <Route element={<HomeLayout />}>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/login" element={<Login />} />         
           <Route path="/register" element={<Register />} />          
         </Route>
-
-        {/* Common Layout */}
-        <Route path="/admin" element={<DashboardLayout />}>
+        <Route path="/dashboard" element={<DashboardLayout />}>
           <Route path="assignrole" element={<AssignRole />} />
           <Route path="taskmanager" element={<TaskManager/>} />
           <Route path="role" element={<Role/>} />
           <Route path="country" element={<Country/>} />
           <Route path="state" element={<State/>} />
           <Route path="district" element={<District/>} />
+          <Route path="doctor" element={<Doctors />} />
+          <Route path="nurses" element={<Nurses />} />
+          <Route path="sidebar" element={<Sidebar />} />          
         </Route>
       </Routes>
     </Router>

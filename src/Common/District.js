@@ -22,21 +22,21 @@ const District = () => {
 
   const GetAllDistricts = () => {
     axios
-      .get("https://localhost:7160/api/District/GetAllDistricts")
+      .get(process.env.REACT_APP_BASE_URL + "District/GetAllDistricts")
       .then((res) => setDistricts(res.data))
       .catch((err) => console.error("Error fetching districts:", err));
   };
 
   const GetAllStates = () => {
     axios
-      .get("https://localhost:7160/api/State/GetAllStates")
+      .get(process.env.REACT_APP_BASE_URL + "State/GetAllStates")
       .then((res) => setStates(res.data))
       .catch((err) => console.error("Error fetching states:", err));
   };
 
   const GetAllCountry = () => {
     axios
-      .get("https://localhost:7160/api/Country/GetAllCountry")
+      .get(process.env.REACT_APP_BASE_URL + "Country/GetAllCountry")
       .then((res) => {
         setCountries(res.data);
         setLoadingCountries(false);
@@ -58,7 +58,7 @@ const District = () => {
 
     if (editingId) {
       axios
-        .put(`https://localhost:7160/api/District/UpdateDistrict/${editingId}`, districtData)
+        .put(process.env.REACT_APP_BASE_URL + `District/UpdateDistrict/${editingId}`, districtData)
         .then((res) => {
           console.log("District updated:", res.data);
           resetForm();
@@ -67,7 +67,7 @@ const District = () => {
         .catch((err) => console.error("Error updating district:", err));
     } else {
       axios
-        .post("https://localhost:7160/api/District/AddDistrict", districtData)
+        .post(process.env.REACT_APP_BASE_URL + "District/AddDistrict", districtData)
         .then((res) => {
           console.log("District added:", res.data);
           resetForm();
@@ -89,7 +89,7 @@ const District = () => {
   const handleDelete = (districtId) => {
     if (window.confirm("Are you sure you want to delete this district?")) {
       axios
-        .delete(`https://localhost:7160/api/District/DeleteDistrict/${districtId}`)
+        .delete(process.env.REACT_APP_BASE_URL + `District/DeleteDistrict/${districtId}`)
         .then(() => {
           console.log("District deleted successfully.");
           GetAllDistricts();
