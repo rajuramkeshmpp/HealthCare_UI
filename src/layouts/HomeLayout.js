@@ -30,7 +30,7 @@ const HomeLayout = () => {
     <div className="dashboard-container">
       <header className="dashboard-header" style={{ display: 'flex', justifyContent: 'space-between', padding: '10px' }}>
         <div style={{ display: 'flex', alignItems: 'center' }}>
-          <div className="logo" style={{ marginRight: '20px', color: 'white' }}>SS Docs</div>
+          <div className="logo" style={{ marginRight: '20px', color: 'white' }}>Shiwansh Solutions</div>
           {technologies.map((s) => (
             <Link
               key={s.id}

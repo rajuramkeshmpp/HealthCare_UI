@@ -3,7 +3,7 @@ import React from 'react';
 function NetCoreApiMongo() {
   return (
     <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif' }}>
-      <h2> CRUD in .NET Core using MongoDB (Simplified)</h2>
+      <h2>.NET Core API using MongoDB</h2>
       <h3>1. Create Project</h3>
       <p>Create a new ASP.NET Core Web API project in Visual Studio.</p>
       <h3>2. Install NuGet Packages</h3>
