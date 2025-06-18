@@ -17,7 +17,7 @@ const Country = () => {
 
   const GetAllCountry = () => {
     axios
-      .get("https://localhost:7266/api/Country/GetAllCountry")
+      .get(process.env.REACT_APP_BASE_URL +"Country/GetAllCountry")
       .then((res) => {
         setCountries(res.data);
       })

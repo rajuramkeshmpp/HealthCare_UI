@@ -9,7 +9,7 @@ const State = () => {
   const [name, setName] = useState("");
   const [countryId, setCountryId] = useState("");
   const [editingId, setEditingId] = useState(null);
-  const [viewState, setViewState] = useState(null); 
+  const [viewState, setViewState] = useState(null);
 
   useEffect(() => {
     GetAllState();
@@ -18,24 +18,16 @@ const State = () => {
 
   const GetAllState = () => {
     axios
-      .get(process.env.REACT_APP_BASE_URL + "State/GetAllStates")
-      .then((res) => {
-        setStates(res.data);
-      })
-      .catch((err) => {
-        console.error("Error fetching states:", err);
-      });
+      .get(process.env.REACT_APP_BASE_URL + "State/GetAllState")
+      .then((res) => setStates(res.data))
+      .catch((err) => console.error("Error fetching states:", err));
   };
 
   const GetAllCountry = () => {
     axios
       .get(process.env.REACT_APP_BASE_URL + "Country/GetAllCountry")
-      .then((res) => {
-        setCountries(res.data);
-      })
-      .catch((err) => {
-        console.error("Error fetching countries:", err);
-      });
+      .then((res) => setCountries(res.data))
+      .catch((err) => console.error("Error fetching countries:", err));
   };
 
   const handleSubmit = (e) => {
@@ -43,13 +35,15 @@ const State = () => {
 
     const stateData = {
       name,
-      countryId: parseInt(countryId), // Ensure the countryId is an integer
+      countryId: Number(countryId),
     };
 
     if (editingId) {
-      // Update existing state
+      // Include ID for update
+      stateData.id = editingId;
+
       axios
-        .put(process.env.REACT_APP_BASE_URL + `State/UpdateState/${editingId}`, stateData)
+        .put(`${process.env.REACT_APP_BASE_URL}State/UpdateState/${editingId}`, stateData)
         .then((res) => {
           console.log("State updated:", res.data);
           resetForm();
@@ -59,9 +53,8 @@ const State = () => {
           console.error("Error updating state:", err);
         });
     } else {
-      // Add new state
       axios
-        .post(process.env.REACT_APP_BASE_URL + "State/AddState", stateData)
+        .post(`${process.env.REACT_APP_BASE_URL}State/AddState`, stateData)
         .then((res) => {
           console.log("State added:", res.data);
           resetForm();
@@ -78,33 +71,29 @@ const State = () => {
     setCountryId("");
     setEditingId(null);
     setShowModal(false);
-    setViewState(null); // Reset view state when modal is closed
+    setViewState(null);
   };
 
-  const handleDelete = (stateId) => {
+  const handleDelete = (id) => {
     if (window.confirm("Are you sure you want to delete this state?")) {
       axios
-        .delete(process.env.REACT_APP_BASE_URL + `State/DeleteState/${stateId}`)
-        .then(() => {
-          console.log("State deleted successfully.");
-          GetAllState(); // Refresh the table after deletion
-        })
-        .catch((err) => {
-          console.error("Error deleting state:", err);
-        });
+        .delete(`${process.env.REACT_APP_BASE_URL}State/DeleteState/${id}`)
+        .then(() => GetAllState())
+        .catch((err) => console.error("Error deleting state:", err));
     }
   };
 
   const handleEdit = (state) => {
     setName(state.name);
-    setCountryId(countries.find((c) => c.name === state.countryName)?.id || "");
+    const matchedCountry = countries.find((c) => c.name === state.countryName);
+    setCountryId(matchedCountry ? matchedCountry.id : "");
     setEditingId(state.id);
     setShowModal(true);
   };
 
   const handleView = (state) => {
-    setViewState(state); // Set the state to be viewed
-    setShowModal(true); // Open the modal
+    setViewState(state);
+    setShowModal(true);
   };
 
   const isFormValid = () => {
@@ -113,7 +102,7 @@ const State = () => {
 
   return (
     <div>
-      <button className="add-country-button" onClick={() => setShowModal(true)}>
+      <button className="add-country-button" onClick={() => { resetForm(); setShowModal(true); }}>
         + Add State
       </button>
 
@@ -123,88 +112,77 @@ const State = () => {
             <th>ID</th>
             <th>Country Name</th>
             <th>State Name</th>
-            <th>Action</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
-          {states.map((s) => (
-            <tr key={s.id}>
-              <td>{s.id}</td>
-              <td>{s.countryName}</td>
-              <td>{s.name}</td>
-              <td className="action-icons">
-                <FaEdit
-                  className="icon edit-icon"
-                  title="Edit"
-                  onClick={() => handleEdit(s)}
-                />
-                <FaEye
-                  className="icon view-icon"
-                  title="View"
-                  onClick={() => handleView(s)}
-                />
-                <FaTrash
-                  className="icon delete-icon"
-                  title="Delete"
-                  onClick={() => handleDelete(s.id)}
-                />
+          {states.map((state) => (
+            <tr key={state.id}>
+              <td>{state.id}</td>
+              <td>{state.countryName}</td>
+              <td>{state.name}</td>
+              <td>
+                <FaEdit className="icon edit-icon" onClick={() => handleEdit(state)} />
+                <FaEye className="icon view-icon" onClick={() => handleView(state)} />
+                <FaTrash className="icon delete-icon" onClick={() => handleDelete(state.id)} />
               </td>
             </tr>
           ))}
         </tbody>
       </table>
 
-      {showModal && (viewState ? (
+      {showModal && (
         <div className="modal-overlay">
           <div className="modal-content">
-            <h2>View State</h2>
-            <p><strong>State Name:</strong> {viewState.name}</p>
-            <p><strong>Country Name:</strong> {viewState.countryName}</p>
-            <div className="modal-buttons">
-              <button onClick={() => setShowModal(false)}>Close</button>
-            </div>
+            {viewState ? (
+              <>
+                <h2>View State</h2>
+                <p><strong>State Name:</strong> {viewState.name}</p>
+                <p><strong>Country Name:</strong> {viewState.countryName}</p>
+                <div className="modal-buttons">
+                  <button onClick={resetForm}>Close</button>
+                </div>
+              </>
+            ) : (
+              <form onSubmit={handleSubmit}>
+                <h2>{editingId ? "Edit State" : "Add State"}</h2>
+
+                <label>Select Country</label>
+                <select
+                  value={countryId}
+                  onChange={(e) => setCountryId(e.target.value)}
+                  required
+                >
+                  <option value="">-- Select Country --</option>
+                  {countries.map((c) => (
+                    <option key={c.id} value={c.id}>
+                      {c.name}
+                    </option>
+                  ))}
+                </select>
+
+                <label>State Name</label>
+                <input
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  placeholder="Enter state name"
+                  required
+                />
+
+                <div className="modal-buttons">
+                  <button type="submit" disabled={!isFormValid()}>
+                    {editingId ? "Update State" : "Add State"}
+                  </button>
+                  <button type="button" onClick={resetForm}>
+                    Cancel
+                  </button>
+                </div>
+              </form>
+            )}
           </div>
         </div>
-      ) : (
-        <div className="modal-overlay">
-          <div className="modal-content">
-            <h2>{editingId ? "Edit State" : "Add New State"}</h2>
-            <form onSubmit={handleSubmit}>
-            <label>Select Country</label>
-              <select
-                value={countryId}
-                onChange={(e) => setCountryId(e.target.value)}
-                required
-              >
-                <option value="" disabled>
-                  -- Select Country --
-                </option>
-                {countries.map((c) => (
-                  <option key={c.id} value={c.id}>
-                    {c.name}
-                  </option>
-                ))}
-              </select>
-              <label>State Name</label>
-              <input
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder="Enter state name"
-                required
-              />
-              <div className="modal-buttons">
-                <button type="submit" disabled={!isFormValid()}>
-                  {editingId ? "Update State" : "Add State"}
-                </button>
-                <button type="button" onClick={resetForm}>
-                  Cancel
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      ))}
+      )}
     </div>
   );
 };

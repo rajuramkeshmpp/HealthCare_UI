@@ -37,6 +37,7 @@ import CrudJsonServer from './HomePage/React/CrudJsonServer';
 import CrudJStaticArray from './HomePage/React/CrudJStaticArray';
 import ReactCrudApi from './HomePage/React/ReactCrudApi';
 import ReactJsQA from './HomePage/React/ReactJsQA';
+import Company from './SuperAdmin/Company';
 
 function App() {
   return (
@@ -78,6 +79,7 @@ function App() {
           <Route path="assignrole" element={<AssignRole />} />
           <Route path="taskmanager" element={<TaskManager />} />
           <Route path="role" element={<Role />} />
+          <Route path="company" element={<Company />} />
           <Route path="country" element={<Country />} />
           <Route path="state" element={<State />} />
           <Route path="district" element={<District />} />
