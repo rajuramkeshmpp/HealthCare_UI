@@ -41,19 +41,34 @@ const HomeLayout = () => {
     { Id: 21, Name: 'MongoDB Server', Path: 'mongodbserver', TechnologyId: 5 },
   ]);
 
+  const [selectedTechId, setSelectedTechId] = useState(null);
+
+  const handleTechnologyClick = (techId) => {
+    setSelectedTechId(techId);
+  };
+
+  const filteredSidebar = homepagesidebar.filter(
+    (item) => item.TechnologyId === selectedTechId
+  );
+
   return (
     <div className="dashboard-container">
       <header className="dashboard-header" style={{ display: 'flex', justifyContent: 'space-between', padding: '10px' }}>
         <div style={{ display: 'flex', alignItems: 'center' }}>
           <div className="logo" style={{ marginRight: '20px', color: 'white' }}>Shiwansh Solutions</div>
           {technologies.map((s) => (
-            <Link
+            <span
               key={s.Id}
-              to={s.Id.toString()}
-              style={{ marginRight: '15px', color: 'white', textDecoration: 'none' }}
+              onClick={() => handleTechnologyClick(s.Id)}
+              style={{
+                marginRight: '15px',
+                color: 'white',
+                textDecoration: 'none',
+                cursor: 'pointer'
+              }}
             >
               {s.Name}
-            </Link>
+            </span>
           ))}
         </div>
         <div className="header-right" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
@@ -66,13 +81,17 @@ const HomeLayout = () => {
 
       <div className="dashboard-body">
         <aside className="sidebar">
-          <ul>
-            {homepagesidebar.map((s) => (
-              <li key={s.Id} className="sidebar-item">
-                <Link to={s.Path} className="sidebar-link">{s.Name}</Link>
-              </li>
-            ))}
-          </ul>
+          {selectedTechId ? (
+            <ul>
+              {filteredSidebar.map((s) => (
+                <li key={s.Id} className="sidebar-item">
+                  <Link to={s.Path} className="sidebar-link">{s.Name}</Link>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <div style={{ padding: '10px', color: '#666' }}>Select a technology</div>
+          )}
         </aside>
 
         <main className="main-content">
