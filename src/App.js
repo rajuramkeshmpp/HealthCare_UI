@@ -40,6 +40,7 @@ import ReactJsQA from './HomePage/React/ReactJsQA';
 import Company from './SuperAdmin/Company';
 import PostNewJob from './JobPortal/Employer/PostNewJob';
 import MyAccount from './JobPortal/Employer/MyAccount';
+import AddSociety from './SocietyManagement/Admin/AddSociety';
 
 function App() {
   return (
@@ -92,6 +93,7 @@ function App() {
           <Route path="technology" element={<Technology />} />
           <Route path="postnewjob" element={<PostNewJob />} />
           <Route path="myaccountemployer" element={<MyAccount />} />
+          <Route path="addsocietyadmin" element={<AddSociety />} />
         </Route>
       </Routes>
     </Router>
