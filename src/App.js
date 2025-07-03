@@ -38,6 +38,8 @@ import CrudJStaticArray from './HomePage/React/CrudJStaticArray';
 import ReactCrudApi from './HomePage/React/ReactCrudApi';
 import ReactJsQA from './HomePage/React/ReactJsQA';
 import Company from './SuperAdmin/Company';
+import PostNewJob from './JobPortal/Employer/PostNewJob';
+import MyAccount from './JobPortal/Employer/MyAccount';
 
 function App() {
   return (
@@ -88,6 +90,8 @@ function App() {
           <Route path="sidebar" element={<Sidebar />} />
           <Route path="homesidebar" element={<Homesidebar />} />
           <Route path="technology" element={<Technology />} />
+          <Route path="postnewjob" element={<PostNewJob />} />
+          <Route path="myaccountemployer" element={<MyAccount />} />
         </Route>
       </Routes>
     </Router>
