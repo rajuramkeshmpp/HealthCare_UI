@@ -16,7 +16,7 @@ pipeline {
 
         stage('Build React App') {
             steps {
-                // Setting CI=false here stops treating lint warnings as errors
+                // Prevent lint warnings from failing the build
                 sh 'CI=false npm run build'
             }
         }
@@ -25,7 +25,7 @@ pipeline {
             steps {
                 sshagent(credentials: ['jenkins-ec2-key']) {
                     sh """
-                        scp -r build/* ubuntu@<EC2_PUBLIC_IP>:/var/www/html/
+                        scp -o StrictHostKeyChecking=no -r build/* ubuntu@54.196.222.218:/var/www/html/
                     """
                 }
             }
