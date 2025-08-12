@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        EC2_IP = 'YOUR_EC2_PUBLIC_IP'            // Replace with your EC2 public IP
+        EC2_IP = '54.196.222.218'            // Replace with your EC2 public IP
         SSH_CRED = 'jenkins-ec2-key'              // Your SSH credential ID in Jenkins
     }
 
