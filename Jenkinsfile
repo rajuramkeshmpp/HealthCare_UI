@@ -1,16 +1,12 @@
 pipeline {
     agent any
 
-    environment {
-        EC2_IP = "54.83.74.16"            // Your EC2 Public IP
-        SSH_KEY_ID = "git-hub-key"        // Jenkins SSH key credential ID for EC2
-        REPO = "git@github.com:rajuramkeshmpp/HealthCare_UI.git"
-    }
-
     stages {
-        stage('Checkout Code') {
+        stage('Checkout') {
             steps {
-                git branch: 'main', url: "${REPO}", credentialsId: 'git-hub-key'
+                git branch: 'main',
+                    url: 'git@github.com:rajuramkeshmpp/HealthCare_UI.git',
+                    credentialsId: 'git-key' // Replace with your Jenkins SSH credential ID
             }
         }
 
@@ -20,22 +16,30 @@ pipeline {
             }
         }
 
-        stage('Build React App') {
+        stage('Build') {
             steps {
                 sh 'npm run build'
             }
         }
 
-        stage('Deploy to EC2') {
+        stage('Deploy') {
             steps {
-                sshagent (credentials: [SSH_KEY_ID]) {
-                    sh """
-                    ssh -o StrictHostKeyChecking=no ubuntu@${EC2_IP} 'rm -rf ~/healthcare-ui/*'
-                    scp -o StrictHostKeyChecking=no -r build/* ubuntu@${EC2_IP}:~/healthcare-ui/
-                    ssh -o StrictHostKeyChecking=no ubuntu@${EC2_IP} 'nohup serve -s ~/healthcare-ui -l 3000 >/dev/null 2>&1 &'
-                    """
-                }
+                sh '''
+                # Example deploy step - change according to your setup
+                cp -r build/* /var/www/html/
+                echo "Deployment completed!"
+                '''
             }
         }
     }
+
+    post {
+        success {
+            echo '✅ Build & deployment successful!'
+        }
+        failure {
+            echo '❌ Build failed!'
+        }
+    }
 }
+
