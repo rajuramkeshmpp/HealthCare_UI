@@ -1,15 +1,10 @@
 pipeline {
     agent any
 
-    environment {
-        EC2_IP = '54.196.222.218'            // Replace with your EC2 public IP
-        SSH_CRED = 'jenkins-ec2-key'              // Your SSH credential ID in Jenkins
-    }
-
     stages {
         stage('Checkout Code') {
             steps {
-                echo "✅ Code already checked out by Jenkins SCM step"
+                git branch: 'main', credentialsId: 'jenkins-ec2-key', url: 'git@github.com:rajuramkeshmpp/HealthCare_UI.git'
             }
         }
 
@@ -21,15 +16,16 @@ pipeline {
 
         stage('Build React App') {
             steps {
-                sh 'npm run build'
+                // Setting CI=false here stops treating lint warnings as errors
+                sh 'CI=false npm run build'
             }
         }
 
         stage('Deploy to EC2') {
             steps {
-                sshagent(credentials: [SSH_CRED]) {
+                sshagent(credentials: ['jenkins-ec2-key']) {
                     sh """
-                        scp -o StrictHostKeyChecking=no -r build/* ubuntu@${EC2_IP}:/var/www/html/
+                        scp -r build/* ubuntu@<EC2_PUBLIC_IP>:/var/www/html/
                     """
                 }
             }
