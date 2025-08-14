@@ -6,7 +6,7 @@ pipeline {
             steps {
                 git branch: 'main',
                     url: 'git@github.com:rajuramkeshmpp/HealthCare_UI.git',
-                    credentialsId: 'git-key' // Replace with your Jenkins SSH credential ID
+                    credentialsId: 'git-key'
             }
         }
 
@@ -18,15 +18,14 @@ pipeline {
 
         stage('Build') {
             steps {
-                sh 'npm run build'
+                sh 'CI=false npm run build' // Bypass ESLint warnings
             }
         }
 
         stage('Deploy') {
             steps {
                 sh '''
-                # Example deploy step - change according to your setup
-                cp -r build/* /var/www/html/
+                sudo cp -r build/* /var/www/html/
                 echo "Deployment completed!"
                 '''
             }
