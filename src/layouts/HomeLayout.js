@@ -5,7 +5,7 @@ import Footer from '../Components/Footer';
 
 const HomeLayout = () => {
   const [technologies] = useState([
-    { Id: 1, Name: 'Dotnet' },
+    { Id: 1, Name: 'DotnetCore' },
     { Id: 2, Name: 'NodeJs' },
     { Id: 3, Name: 'ReactJs' },
     { Id: 4, Name: 'NextJs' },
